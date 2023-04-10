@@ -1,5 +1,5 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { ref, reactive, computed } from 'vue';
+import { defineStore } from 'pinia';
 
 export const useRegistrationFormStore = defineStore('registrationForm', () => {
   const personType = ref('pf');
@@ -31,44 +31,46 @@ export const useRegistrationFormStore = defineStore('registrationForm', () => {
     return fieldTitles[field][personType.value];
   }
 
-  const registrationFormBase = computed( () => [
+  const registrationFormBase = computed( () => reactive([
     [
       {
         title: 'Endereço de email',
-        validation: ['email', 'required'],
-        value: ''
+        additionalValidator: 'email',
+        content: '',
+        isValid: false
       }
     ],
     [
       {
         title: fieldNameByPersonType('name'),
-        validation: ['required'],
-        value: ''
+        content: '',
+        isValid: false
       },
       {
         title: fieldNameByPersonType('identification'),
-        validation: ['required'],
-        value: ''
+        additionalValidator: 'cpfCnpj',
+        content: '',
+        isValid: false
       },
       {
         title: fieldNameByPersonType('date'),
-        validation: ['date', 'required'],
-        value: ''
+        content: '',
+        isValid: false
       },
       {
         title: 'Telefone',
-        validation: ['phone', 'required'],
-        value: ''
+        content: '',
+        isValid: false
       }
     ],
     [
       {
         title: 'Senha',
-        validation: ['required'],
-        value: ''
+        content: '',
+        isValid: false
       }
     ]
-  ]);
+  ]));
   
 
   const form = computed(() => {
