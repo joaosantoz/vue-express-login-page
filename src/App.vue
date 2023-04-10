@@ -1,9 +1,8 @@
-<template>
- <h1>Vue</h1>
-</template>
+<script setup>
+import Registration from './pages/registration/RegistrationForm.vue';
 
-<style lang="scss">
-h1 {
-  color: $color-primary;
-}
-</style>
+</script>
+
+<template>
+  <Registration />
+</template>
