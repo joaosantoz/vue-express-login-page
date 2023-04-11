@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { requiredValidator } from "@/validation/validators/requiredValidator";
+import { describe, it, expect } from 'vitest';
+import { requiredValidator } from '@/validation/validators/requiredValidator';
 
 describe('Required Validator', () => {
   const sut = requiredValidator;
@@ -27,4 +27,4 @@ describe('Required Validator', () => {
 
     expect(sut(inputValue)).toBeFalsy();
   });
-})
+});

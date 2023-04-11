@@ -3,4 +3,4 @@ export const requiredValidator = (content) => {
     return { required: true };
   }
   return false;
-}
+};
