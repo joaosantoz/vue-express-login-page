@@ -1,13 +1,13 @@
 <script setup>
 import { computed } from 'vue';
-import { requiredValidator } from "@/validation/requiredValidator";
+import { requiredValidator } from "@/validation/validators/requiredValidator";
 
 const props = defineProps(['fieldOptions']);
 const fieldOptions = computed(() => props.fieldOptions);
 
 
 const validateInputContent = () => {
-  fieldOptions.value.isValid = requiredValidator(fieldOptions.value.content);
+  fieldOptions.value.isValid = !requiredValidator(fieldOptions.value.content);
 }
 
 </script>
