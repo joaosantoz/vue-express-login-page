@@ -19,6 +19,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "arrow-body-style": "off"
   }
 }
