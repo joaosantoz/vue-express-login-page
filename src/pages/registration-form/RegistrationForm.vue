@@ -3,8 +3,13 @@ import { useStepper } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
 import { useRegistrationFormStore } from '@/stores/registration-form/registrationForm';
 import FormInput from '@/components/form-input/FormInput.vue';
+import FormRadioGroup from '@/components/form-radio-group/FormRadioGroup.vue';
+import FormButton from '@/components/form-button/FormButton.vue';
+import { requiredValidator } from '@/validation/validators/requiredValidator';
 
 const store = useRegistrationFormStore();
+const form = computed(() => store.form);
+const personType = ref(store.personType);
 
 const stepper = useStepper({
   welcome: {
@@ -21,12 +26,27 @@ const stepper = useStepper({
   },
 });
 
-const form = computed(() => store.form);
+const personTypeOptions = ref([
+  {
+    id: 'pf',
+    title: 'Pessoa Física',
+  },
+  {
+    id: 'pj',
+    title: 'Pessoa Jurídica',
+  },
+]);
 
-const personType = ref(store.personType);
+const updateEmailAfterRadioChange = (emailValue) => {
+  form.value[0].content = emailValue;
 
-const changePersonType = () => {
-  store.setPersonType(personType.value);
+  form.value[0].isValid = !requiredValidator(emailValue);
+};
+const changePersonType = (newPersonValue) => {
+  const previousEmailValue = form.value[0].content;
+
+  store.setPersonType(newPersonValue);
+  updateEmailAfterRadioChange(previousEmailValue);
 };
 
 const formIsValid = computed(() => form.value.map((item) => item.isValid).every((valid) => valid));
@@ -38,84 +58,118 @@ watch(stepper.index, () => {
 </script>
 
 <template>
-  <form class="registration-form">
-    <div class="form-information">
-      <p class="form-step">
-        Etapa <span class="current-step">{{ stepper.index.value + 1 }}</span>
-        de {{ stepper.stepNames.value.length }}
-      </p>
-      <h1 class="form-title">
-        {{ stepper.current.value.title }}
-      </h1>
-    </div>
-
-    <div>
-      <FormInput
-        v-for="(field, index) in form"
-        :key="index"
-        :field-options="field"
-      />
-    </div>
-
-    <div v-if="stepper.isFirst.value">
-      <input
-        id="pf"
-        type="radio"
-        value="pf"
-        name="person"
-        v-model="personType"
-        @change="changePersonType()"
-      >
-      <label for="pf">Pessoa Física</label>
-
-      <input
-        id="pj"
-        type="radio"
-        value="pj"
-        name="person"
-        v-model="personType"
-        @change="changePersonType()"
-      >
-      <label for="pj">Pessoa Jurídica</label>
-    </div>
-
-    <button
-      @click="stepper.goToPrevious()"
-      v-if="!stepper.isFirst.value"
+  <div class="form-wrapper">
+    <form
+      class="registration-form"
+      @submit.prevent
     >
-      Voltar
-    </button>
-    <div>
-      <button
-        @click="stepper.goToNext()"
-        v-if="!stepper.isLast.value"
-        :disabled="!formIsValid"
+      <div class="form-information">
+        <p class="form-step">
+          Etapa <span class="current-step">{{ stepper.index.value + 1 }}</span>
+          de {{ stepper.stepNames.value.length }}
+        </p>
+        <h1 class="form-title">
+          {{ stepper.current.value.title }}
+        </h1>
+      </div>
+
+      <div class="form-input-group">
+        <FormInput
+          v-for="(field, index) in form"
+          :key="index"
+          :field-options="field"
+        />
+      </div>
+
+      <div
+        class="form-radio-group"
+        v-if="stepper.isFirst.value"
       >
-        Continuar
-      </button>
-      <button
-        v-if="stepper.isLast.value"
-        :disabled="!formIsValid"
+        <FormRadioGroup
+          @radio-change="changePersonType($event)"
+          :options="personTypeOptions"
+          :radio-value="personType"
+          :default-value="personType"
+        />
+      </div>
+
+      <div
+        class="form-controls-group"
+        :class="{ full: stepper.isFirst.value }"
       >
-        Cadastrar
-      </button>
-    </div>
-  </form>
+        <FormButton
+          @button-clicked="stepper.goToPrevious()"
+          v-if="!stepper.isFirst.value"
+          title="Voltar"
+          variation="secondary"
+        />
+        <FormButton
+          @button-clicked="stepper.goToNext()"
+          v-if="!stepper.isLast.value"
+          title="Continuar"
+          :disabled="!formIsValid"
+          variation="primary"
+        />
+        <FormButton
+          v-if="stepper.isLast.value"
+          :disabled="!formIsValid"
+          title="Cadastrar"
+          variation="primary"
+        />
+      </div>
+    </form>
+  </div>
 </template>
 
-<style lang="scss">
-.registration-form {
-  border: 1px solid tomato;
-  max-width: 30%;
+<style lang="scss" scoped>
+.form-wrapper {
+  padding: 100px 20px 0 20px;
+  max-width: 300px;
   margin: 0 auto;
 
-  .form-information {
-    .form-title {
-      font-weight: bold;
+  @media screen and (max-width: 500px) {
+    padding-top: 200px;
+  }
+
+  .registration-form {
+    width: 100%;
+    margin: 0 auto;
+
+    .form-information {
+      width: 100%;
+      margin-bottom: 1.5em;
+
+      .form-title {
+        font-weight: bold;
+        font-size: 1.8em;
+
+        @media screen and (min-width: 500px) {
+          width: 330px;
+        }
+      }
+
+      .form-step {
+        margin-bottom: 0.25em;
+
+        .current-step {
+          color: $color-primary;
+        }
+      }
     }
-    .form-step {
-      .current-step {
-        color: $color-primary;
+
+    .form-controls-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5em;
+
+      > * {
+        width: 48%;
+      }
+
+      &.full {
+        > * {
+          width: 100%;
+        }
       }
     }
   }
