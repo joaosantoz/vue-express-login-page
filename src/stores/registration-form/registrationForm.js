@@ -3,7 +3,6 @@ import { defineStore } from 'pinia';
 
 export const useRegistrationFormStore = defineStore('registrationForm', () => {
   const personType = ref('pf');
-
   const currentStep = ref(0);
   const setPersonType = (newPersonType) => {
     personType.value = newPersonType;
