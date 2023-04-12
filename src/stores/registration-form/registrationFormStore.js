@@ -1,7 +1,7 @@
 import { ref, reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
 
-export const useRegistrationFormStore = defineStore('registrationForm', () => {
+export const useRegistrationFormStore = defineStore('registrationFormStore', () => {
   const personType = ref('pf');
   const currentStep = ref(0);
   const setPersonType = (newPersonType) => {
@@ -37,6 +37,7 @@ export const useRegistrationFormStore = defineStore('registrationForm', () => {
         additionalValidator: 'email',
         content: '',
         isValid: false,
+        errorMessage: '',
       },
     ],
     [
@@ -44,22 +45,30 @@ export const useRegistrationFormStore = defineStore('registrationForm', () => {
         title: fieldNameByPersonType('name'),
         content: '',
         isValid: false,
+        errorMessage: '',
       },
       {
         title: fieldNameByPersonType('identification'),
         additionalValidator: 'cpfCnpj',
         content: '',
         isValid: false,
+        errorMessage: '',
+        mask: personType.value === 'pf' ? 'cpf' : 'cnpj',
       },
       {
         title: fieldNameByPersonType('date'),
+        additionalValidator: 'date',
         content: '',
         isValid: false,
+        errorMessage: '',
+        mask: 'date',
       },
       {
         title: 'Telefone',
         content: '',
         isValid: false,
+        errorMessage: '',
+        mask: 'phone',
       },
     ],
     [
@@ -67,6 +76,7 @@ export const useRegistrationFormStore = defineStore('registrationForm', () => {
         title: 'Senha',
         content: '',
         isValid: false,
+        errorMessage: '',
       },
     ],
   ]));
@@ -85,6 +95,13 @@ export const useRegistrationFormStore = defineStore('registrationForm', () => {
   }[personType.value]));
 
   return {
-    form, personType, personTypeTitle, setPersonType, currentStep, setCurrentStep,
+    form,
+    personType,
+    personTypeTitle,
+    registrationFormBase,
+    fieldNameByPersonType,
+    setPersonType,
+    currentStep,
+    setCurrentStep,
   };
 });
