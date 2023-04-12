@@ -1,4 +1,4 @@
-export const dateValidator = (dateValue) => {
+const dateValidator = (dateValue) => {
   if (!dateValue) return false;
 
   if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dateValue)) return 'Digite uma data válida.';
@@ -18,3 +18,5 @@ export const dateValidator = (dateValue) => {
 
   return false;
 };
+
+export default dateValidator;

@@ -1,4 +1,4 @@
-export const emailValidator = (content) => {
+const emailValidator = (content) => {
   const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   if (!content) return false;
@@ -9,3 +9,5 @@ export const emailValidator = (content) => {
 
   return false;
 };
+
+export default emailValidator;

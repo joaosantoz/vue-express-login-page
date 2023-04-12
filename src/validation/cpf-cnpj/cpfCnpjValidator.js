@@ -1,7 +1,7 @@
-import { cnpjValidator } from '@/validation/cpf-cnpj/cnpjValidator';
-import { cpfValidator } from '@/validation/cpf-cnpj/cpfValidator';
+import { cnpjValidator } from './cnpjValidator.js';
+import { cpfValidator } from './cpfValidator.js';
 
-export const cpfCnpjValidator = (personType, content) => {
+const cpfCnpjValidator = (personType, content) => {
   if (!content) return false;
 
   return {
@@ -9,3 +9,5 @@ export const cpfCnpjValidator = (personType, content) => {
     pf: cpfValidator(content),
   }[personType];
 };
+
+export default cpfCnpjValidator;
