@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import FormRadioGroup from "@/components/form-radio-group/FormRadioGroup.vue";
+import FormRadioGroup from '@/components/form-radio-group/FormRadioGroup.vue';
 
 describe('FormRadioGroup', () => {
   it('should emit a radioChange event with the default value on mount', async () => {

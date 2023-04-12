@@ -77,6 +77,7 @@ export const useRegistrationFormStore = defineStore('registrationFormStore', () 
         content: '',
         isValid: false,
         errorMessage: '',
+        inputType: 'password',
       },
     ],
   ]));

@@ -64,7 +64,7 @@ const validateInputContent = () => {
   >
     <label class="input-title">{{ fieldOptions?.title }}</label>
     <input
-      v-maska=""
+      v-maska
       :data-maska="inputMask"
       class="form-input"
       type="text"
