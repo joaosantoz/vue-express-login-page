@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
-import FormButton from "@/components/form-button/FormButton.vue";
+import FormButton from '@/components/form-button/FormButton.vue';
 
 describe('FormButton', () => {
   it('should render button with correct text', () => {

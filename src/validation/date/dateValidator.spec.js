@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { dateValidator } from "@/validation";
 
 describe('Date Validator', () => {
@@ -41,9 +41,7 @@ describe('Date Validator', () => {
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const dateString = todayDate.toLocaleDateString('pt-BR', options);
 
-    const inputValue = dateString;
-
-    expect(sut(inputValue)).toBe('Digite uma data válida.');
+    expect(sut(dateString)).toBe('Digite uma data válida.');
   });
 
   it('should return error message when day greater than 31 is given', () => {
