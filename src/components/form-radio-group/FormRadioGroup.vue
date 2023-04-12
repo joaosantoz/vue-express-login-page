@@ -56,7 +56,7 @@ onMounted(() => {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 0.5em;
+  margin-top: 0.8em;
 
   input[type="radio"] {
     -webkit-appearance: none;
