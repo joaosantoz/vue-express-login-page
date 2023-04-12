@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.13.0",
+    "maska": "^2.1.8",
     "pinia": "^2.0.32",
     "vue": "^3.2.47"
   },
