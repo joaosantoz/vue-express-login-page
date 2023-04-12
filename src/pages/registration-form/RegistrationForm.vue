@@ -1,11 +1,11 @@
 <script setup>
 import { useStepper } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
-import { useRegistrationFormStore } from '@/stores/registration-form/registrationForm';
+import { useRegistrationFormStore } from '@/stores/registration-form/registrationFormStore';
 import FormInput from '@/components/form-input/FormInput.vue';
 import FormRadioGroup from '@/components/form-radio-group/FormRadioGroup.vue';
 import FormButton from '@/components/form-button/FormButton.vue';
-import { requiredValidator } from '@/validation/validators/requiredValidator';
+import { requiredValidator } from '@/validation/required/requiredValidator';
 
 const store = useRegistrationFormStore();
 const form = computed(() => store.form);
@@ -65,11 +65,11 @@ watch(stepper.index, () => {
     >
       <div class="form-information">
         <p class="form-step">
-          Etapa <span class="current-step">{{ stepper.index.value + 1 }}</span>
-          de {{ stepper.stepNames.value.length }}
+          Etapa <span class="current-step">{{ stepper?.index.value + 1 }}</span>
+          de {{ stepper?.stepNames.value.length }}
         </p>
         <h1 class="form-title">
-          {{ stepper.current.value.title }}
+          {{ stepper?.current.value.title }}
         </h1>
       </div>
 
@@ -83,7 +83,7 @@ watch(stepper.index, () => {
 
       <div
         class="form-radio-group"
-        v-if="stepper.isFirst.value"
+        v-if="stepper?.isFirst.value"
       >
         <FormRadioGroup
           @radio-change="changePersonType($event)"
@@ -95,23 +95,24 @@ watch(stepper.index, () => {
 
       <div
         class="form-controls-group"
-        :class="{ full: stepper.isFirst.value }"
+        :class="{ full: stepper?.isFirst.value }"
       >
         <FormButton
-          @button-clicked="stepper.goToPrevious()"
-          v-if="!stepper.isFirst.value"
+          @button-clicked="stepper?.goToPrevious()"
+          v-if="!stepper?.isFirst.value"
           title="Voltar"
+          data-test="voltar"
           variation="secondary"
         />
         <FormButton
-          @button-clicked="stepper.goToNext()"
-          v-if="!stepper.isLast.value"
+          @button-clicked="stepper?.goToNext()"
+          v-if="!stepper?.isLast.value"
           title="Continuar"
           :disabled="!formIsValid"
           variation="primary"
         />
         <FormButton
-          v-if="stepper.isLast.value"
+          v-if="stepper?.isLast.value"
           :disabled="!formIsValid"
           title="Cadastrar"
           variation="primary"
