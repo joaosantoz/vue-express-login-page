@@ -2,9 +2,10 @@
 import { vMaska } from 'maska';
 import { computed } from 'vue';
 import { useRegistrationFormStore } from '@/stores/registration-form/registrationFormStore';
-import {
-  requiredValidator, emailValidator, cpfCnpjValidator, dateValidator,
-} from '@/validation';
+import requiredValidator from '@/validation/required/requiredValidator.js';
+import emailValidator from '@/validation/email/emailValidator.js';
+import cpfCnpjValidator from '@/validation/cpf-cnpj/cpfCnpjValidator';
+import dateValidator from '@/validation/date/dateValidator.js';
 
 const store = useRegistrationFormStore();
 

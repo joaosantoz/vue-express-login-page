@@ -5,7 +5,7 @@ import { useRegistrationFormStore } from '@/stores/registration-form/registratio
 import FormInput from '@/components/form-input/FormInput.vue';
 import FormRadioGroup from '@/components/form-radio-group/FormRadioGroup.vue';
 import FormButton from '@/components/form-button/FormButton.vue';
-import { requiredValidator } from '@/validation/required/requiredValidator';
+import requiredValidator from '@/validation/required/requiredValidator';
 
 const store = useRegistrationFormStore();
 const form = computed(() => store.form);
