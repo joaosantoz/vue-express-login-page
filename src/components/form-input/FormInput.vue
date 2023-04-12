@@ -1,6 +1,12 @@
 <script setup>
+import { vMaska } from 'maska';
 import { computed } from 'vue';
-import { requiredValidator } from '@/validation/validators/requiredValidator';
+import { useRegistrationFormStore } from '@/stores/registration-form/registrationFormStore';
+import {
+  requiredValidator, emailValidator, cpfCnpjValidator, dateValidator,
+} from '@/validation';
+
+const store = useRegistrationFormStore();
 
 const props = defineProps({
   fieldOptions: {
@@ -8,23 +14,68 @@ const props = defineProps({
     required: true,
   },
 });
+
 const fieldOptions = computed(() => props.fieldOptions);
 
+const inputMask = computed(() => {
+  return {
+    cpf: '###.###.###-##',
+    cnpj: '##.###.###/####-##',
+    date: '##/##/####',
+    phone: '(##) #########',
+  }[fieldOptions.value.mask];
+});
+
+const buildValidators = (validatorName, content) => {
+  const additionalValidators = {
+    cpfCnpj: cpfCnpjValidator(store.personType, content),
+    email: emailValidator(content),
+    date: dateValidator(content),
+  };
+
+  return additionalValidators[validatorName];
+};
+
 const validateInputContent = () => {
-  fieldOptions.value.isValid = !requiredValidator(fieldOptions.value.content);
+  const requiredValidation = requiredValidator(fieldOptions.value.content);
+
+  if (fieldOptions.value.additionalValidator) {
+    const additionalValidation = buildValidators(
+      fieldOptions.value.additionalValidator,
+      fieldOptions.value.content,
+    );
+
+    fieldOptions.value.isValid = !additionalValidation && !requiredValidation;
+    fieldOptions.value.errorMessage = additionalValidation || requiredValidation;
+
+    return;
+  }
+
+  fieldOptions.value.errorMessage = requiredValidation;
+  fieldOptions.value.isValid = !requiredValidation;
 };
 
 </script>
 
 <template>
-  <div class="form-input-wrapper">
-    <label class="input-title">{{ fieldOptions.title }}</label>
+  <div
+    class="form-input-wrapper"
+    v-if="fieldOptions"
+  >
+    <label class="input-title">{{ fieldOptions?.title }}</label>
     <input
+      v-maska=""
+      :data-maska="inputMask"
       class="form-input"
       type="text"
       v-model="fieldOptions.content"
       @input="validateInputContent()"
     >
+    <span
+      class="error-message"
+      v-show="!fieldOptions.isValid"
+      v-if="fieldOptions.errorMessage"
+    >{{ fieldOptions.errorMessage }}</span>
   </div>
 </template>
 
@@ -46,6 +97,16 @@ const validateInputContent = () => {
     border: 1px solid $color-grey;
     border-radius: 0.5em;
     padding: 0.25em;
+  }
+
+  .error-message {
+    position: absolute;
+    bottom: -1.5em;
+    right: 0;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    color: #ff3333;
+    transition: 0.3s ease all;
   }
 }
 </style>
