@@ -1,57 +1,34 @@
 # desafio-mb-web
 
-This template should help get you started developing with Vue 3 in Vite.
+Aplicação construida com [Vue, Pinia, SCSS] no frontend e [express, javascript] no backend.
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Instalar projeto
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Rodar projeto frontend
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Rodar projeto backend
 
 ```sh
-npm run build
+npm run server
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Rodar testes unitários
 
 ```sh
-npm run test:unit
+npm run test
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+### Rodar testes unitários com visualização de cobertura
 
 ```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+npm run coverage
 ```
