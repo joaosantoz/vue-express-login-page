@@ -183,6 +183,7 @@ describe('useRegistrationFormStore', () => {
         content: '',
         isValid: false,
         errorMessage: '',
+        inputType: 'password',
       },
     ];
 
