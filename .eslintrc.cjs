@@ -24,6 +24,8 @@ module.exports = {
     "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": "off",
-    "import/no-relative-packages": "off"
+    "import/no-relative-packages": "off",
+    "prefer-destructuring": "warn",
+    "consistent-return": "warn"
   }
 }
