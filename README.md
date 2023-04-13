@@ -5,6 +5,9 @@ Aplicação construida com [Vue, Pinia, SCSS] no frontend e [express, javascript
 
 ## Instalar projeto
 
+_Importante instalar as dependências em ambos os projetos_\
+_O backend fica na pasta src/server_
+
 ```sh
 npm install
 ```
