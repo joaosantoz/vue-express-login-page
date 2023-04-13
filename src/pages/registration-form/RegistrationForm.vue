@@ -1,12 +1,15 @@
 <script setup>
 import { useStepper } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
+import { useToast } from 'vue-toast-notification';
 import { useRegistrationFormStore } from '@/stores/registration-form/registrationFormStore';
 import FormInput from '@/components/form-input/FormInput.vue';
 import FormRadioGroup from '@/components/form-radio-group/FormRadioGroup.vue';
 import FormButton from '@/components/form-button/FormButton.vue';
 import requiredValidator from '@/validation/required/requiredValidator';
+import httpClient from '@/infra/axios/axiosHttpClient';
 
+const toast = useToast();
 const store = useRegistrationFormStore();
 const form = computed(() => store.form);
 const personType = ref(store.personType);
@@ -50,6 +53,45 @@ const changePersonType = (newPersonValue) => {
 };
 
 const formIsValid = computed(() => form.value.map((item) => item.isValid).every((valid) => valid));
+
+const onlyNumbers = (string) => {
+  return string.replace(/\D/g, '');
+};
+
+const sendUserData = () => {
+  const formData = form.value;
+
+  const requestBody = {
+    personType: store.personType,
+    email: formData[0].content,
+    name: formData[1].content,
+    cpfCnpj: onlyNumbers(formData[2].content),
+    dateOfCreation: formData[3].content,
+    phone: onlyNumbers(formData[4].content),
+    password: formData[5].content,
+  };
+
+  httpClient.post('api/registration', {
+    ...requestBody,
+  }).then((response) => {
+    toast.open({
+      message: response.data.message,
+      type: 'success',
+    });
+  }).catch((error) => {
+    if (error.response?.status === 400) {
+      toast.open({
+        message: error.response.data.error,
+        type: 'error',
+      });
+    } else {
+      toast.open({
+        message: 'Ocorreu um erro inesperado.',
+        type: 'error',
+      });
+    }
+  });
+};
 
 watch(stepper.index, () => {
   store.setCurrentStep(stepper.index.value);
@@ -98,6 +140,7 @@ watch(stepper.index, () => {
         :class="{ full: stepper?.isFirst.value }"
       >
         <FormButton
+          @keydown.enter.prevent
           @button-clicked="stepper?.goToPrevious()"
           v-if="!stepper?.isFirst.value"
           title="Voltar"
@@ -112,6 +155,7 @@ watch(stepper.index, () => {
           variation="primary"
         />
         <FormButton
+          @button-clicked="sendUserData()"
           v-if="stepper?.isLast.value"
           :disabled="!formIsValid"
           title="Cadastrar"
