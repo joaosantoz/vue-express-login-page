@@ -1,18 +1,27 @@
 import {
+  afterEach,
   beforeEach, describe, expect, it,
 } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
+import MockAdapter from 'axios-mock-adapter';
 import RegistrationForm from '@/pages/registration-form/RegistrationForm.vue';
 import { useRegistrationFormStore } from '@/stores/registration-form/registrationFormStore';
+import httpClient from '@/infra/axios/axiosHttpClient.js';
 
 describe('RegistrationForm', () => {
   let store;
+  let mockAxios;
 
   beforeEach(() => {
     setActivePinia(createPinia());
+    mockAxios = new MockAdapter(httpClient);
 
     store = useRegistrationFormStore();
+  });
+
+  afterEach(() => {
+    mockAxios.reset();
   });
 
   it('should render correctly at the first step', () => {
@@ -79,5 +88,38 @@ describe('RegistrationForm', () => {
     await wrapper.vm.$nextTick();
 
     expect(store.currentStep).toBe(2);
+  });
+
+  it('should call httpClient.post with the correct data and show a success toast when the API returns 200', async () => {
+    const wrapper = shallowMount(RegistrationForm);
+
+    store.setCurrentStep(3);
+
+    await wrapper.vm.$nextTick();
+
+    const expectedRequestBody = {
+      personType: 'pf',
+      email: '',
+      name: '',
+      cpfCnpj: '',
+      dateOfCreation: '',
+      phone: '',
+      password: '',
+    };
+
+    mockAxios.onPost('http://localhost:3000/api/registration', expectedRequestBody).reply(201, {
+      message: 'User registered successfully',
+    });
+
+    const submitButton = wrapper.findComponent({ name: 'FormButton' });
+
+    await submitButton.trigger('click');
+
+    wrapper.vm.sendUserData();
+
+    expect(mockAxios.history.post[0].baseURL).toBe('http://localhost:3000');
+    expect(mockAxios.history.post[0].method).toBe('post');
+    expect(mockAxios.history.post[0].url).toBe('api/registration');
+    expect(mockAxios.history.post[0].data).toBe(JSON.stringify(expectedRequestBody));
   });
 });
