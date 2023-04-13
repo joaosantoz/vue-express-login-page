@@ -11,6 +11,7 @@ const missingOneFieldValidation = (fields) => {
   fields.forEach((field) => {
     if (requiredValidator(Object.values(field)[0])) {
       fieldRequired = Object.keys(field)[0];
+
       missingFields.push(fieldRequired);
     }
   });
@@ -21,14 +22,14 @@ const missingOneFieldValidation = (fields) => {
   }
 
   if (missingFields.length > 0) {
-    const errorMessage = `O seguinte campo é obrigatório: ${fieldRequired}`;
+    const errorMessage = 'Verifique o preenchimento de todos os campos e tente novamente.';
     return { isValid: false, errorMessage, missingFields };
   }
 
   return { isValid: true };
 };
 
-export const registrationFieldsValidation = (req, res, next) => {
+const registrationFieldsValidation = (req, res, next) => {
   const {
     email, personType, name, cpfCnpj, dateOfCreation, phone, password,
   } = req.body;
@@ -70,3 +71,5 @@ export const registrationFieldsValidation = (req, res, next) => {
 
   next();
 };
+
+export default registrationFieldsValidation;
