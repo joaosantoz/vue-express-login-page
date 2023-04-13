@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cpfCnpjValidator } from '@/validation';
+import cpfCnpjValidator from './cpfCnpjValidator.js';
 
 describe('Email Validator', () => {
   const sut = cpfCnpjValidator;

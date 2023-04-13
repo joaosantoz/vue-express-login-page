@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dateValidator } from '@/validation';
+import dateValidator from './dateValidator.js';
 
 describe('Date Validator', () => {
   const sut = dateValidator;

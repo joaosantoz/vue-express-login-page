@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { emailValidator } from '@/validation';
+import emailValidator from './emailValidator.js';
 
 describe('Email Validator', () => {
   const sut = emailValidator;
