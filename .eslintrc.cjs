@@ -20,6 +20,10 @@ module.exports = {
   },
   rules: {
     "import/prefer-default-export": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "import/no-relative-packages": "off"
   }
 }
