@@ -68,7 +68,7 @@ const validateInputContent = () => {
       v-maska
       :data-maska="inputMask"
       class="form-input"
-      type="text"
+      :type="fieldOptions.inputType ?? 'text'"
       v-model="fieldOptions.content"
       @input="validateInputContent()"
     >
