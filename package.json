@@ -1,16 +1,16 @@
 {
   "name": "desafio-mb-web",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
+    "server": "node src/server/server.js",
     "build": "vite build",
     "preview": "vite preview",
-    "test:unit": "vitest",
-    "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
-    "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "test": "vitest",
+    "coverage": "vitest --coverage",
+    "start": "vite & node src/server/server.js"
   },
   "dependencies": {
     "@vueuse/core": "^9.13.0",
