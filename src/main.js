@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 
 import './assets/styles/main.scss';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 const app = createApp(App);
 
