@@ -16,6 +16,10 @@ npm install
 ### Instalar projeto backend
 ```sh
 npm  --prefix src/server install 
+
+ou
+
+cd src/server && npm install
 ```
 
 ___
