@@ -1,51 +1,54 @@
-# desafio-mb-web
+# vue-express-login-page
 
-Aplicação construida com [Vue, Pinia, SCSS] no frontend e [express, javascript] no backend.
+Application built using [Vue, Pinia, SCSS] on the frontend and [Express, Javascript] on the backend.
 
+## Installing the Project
 
-## Instalar projeto
+**Important: Install dependencies in both projects**\
+**The backend is located in the "src/server" folder**
 
-**Importante instalar as dependências em ambos os projetos**\
-**O backend fica na pasta "src/server"**
-
-### Instalar projeto frontend
+### Install frontend project
 ```sh
 npm install
 ```
 
-### Instalar projeto backend
+### Install the backend project
 ```sh
-npm  --prefix src/server install 
+npm --prefix src/server install
 
-ou
+or
 
 cd src/server && npm install
 ```
 
-___
+---
 
-### Rodar projeto frontend
+### Running the Frontend Project
 
 ```sh
 npm run dev
 ```
 
-### Rodar projeto backend
+### Running the Backend Project
 
 ```sh
 npm run server
 ```
 
-___
+---
 
-### Rodar testes unitários
+### Running Unit Tests
 
 ```sh
 npm run test
 ```
 
-### Rodar testes unitários com visualização de cobertura
+### Running Unit Tests with Coverage Visualization
 
 ```sh
 npm run coverage
 ```
+
+The focus of this project was to cover it with unit tests and achieve a high coverage percentage.
+
+![Project Screenshot](https://media.discordapp.net/attachments/1010435043124060230/1143201295621181552/Screenshot_1.jpg)
